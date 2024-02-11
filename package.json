@@ -1,0 +1,29 @@
+{
+  "name": "ecom_node_project",
+  "version": "1.0.0",
+  "description": "ecommerce project in Node",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "node",
+    "backend",
+    "mongodb",
+    "express"
+  ],
+  "author": "Hem Gajjar",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  }
+}
