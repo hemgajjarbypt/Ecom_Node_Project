@@ -3,12 +3,11 @@ import mongoose, { mongo } from "mongoose";
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "product Name id required"]
+        required: [true, "product Name is required"]
     },
     description: {
         type: String,
         required: true,
-
     },
     image: {
         type: String,

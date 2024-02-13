@@ -20,10 +20,14 @@ app.use(cookieParser());
 
 
 import userRouter from "./routes/user.routes.js";
-import productRouter from "./routes/product.routes.js"
+import productRouter from "./routes/product.routes.js";
+// import formRouter from "./routes/form.routers.js";
+import categoryRouter from "./routes/category.routes.js";
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
+// app.use("/api/v1/form-data", formRouter);
+app.use("/api/v1/category", categoryRouter);
 
 
 
