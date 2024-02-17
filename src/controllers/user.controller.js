@@ -184,6 +184,12 @@ const changePassword = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: "Password Changed Successfully" });
 })
 
+const getUser = asyncHandler(async (req, res) => {
+    const users = await User.find();
+    if (users.length === 0) {
+        return res.status(400).send('Users is Not Exists!');
+    }
+    return res.status(200).send(users);
+})
 
-
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword, getUser }
