@@ -85,7 +85,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
 
-    const loggedInUser = await User.findByIdAndUpdate(user._id, { isLoggedIn: true }, { new: true }).select("-password -refreshToken -__v -createdAt -updatedAt");
+    const loggedInUser = await User.findByIdAndUpdate(user._id, { isLoggedIn: true }, { new: true }).select("-password -refreshToken -__v -createdAt -updatedAt -lastLogin");
+
+    loggedInUser.lastLogin = Date.now();
+    await loggedInUser.save();
 
     const option = {
         httpOnly: true,
@@ -187,7 +190,7 @@ const changePassword = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
     const users = await User.find();
     if (users.length === 0) {
-        return res.status(400).send('Users is Not Exists!');
+        return res.status(400).send('Users Not Exists!');
     }
     return res.status(200).send(users);
 })

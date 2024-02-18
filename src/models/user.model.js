@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_PRIVATE_KEY, ACCESS_TOKEN_PRIVATE_EXPIRY, REFRESH_TOKEN_PRIVATE_KEY, REFRESH_TOKEN_PRIVATE_EXPIRY } from "../constants.js"
+import moment from "moment";
 
 const userSchema = new mongoose.Schema({
     userName : {
@@ -69,7 +70,10 @@ const userSchema = new mongoose.Schema({
     refreshToken: {
         type: String
     }
-}, {timestamps: true});
+}, {timestamps: {
+        currentTime: () => moment().format('lll')
+    }
+});
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {

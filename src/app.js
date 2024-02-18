@@ -6,7 +6,7 @@ import { CORS_ORIGIN } from "./constants.js";
 
 const app = express();
 
-
+    
 app.use(cors({
     origin: '*',
     credentials: true

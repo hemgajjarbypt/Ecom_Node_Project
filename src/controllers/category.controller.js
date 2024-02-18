@@ -6,47 +6,15 @@ import { apiResponse } from "../utils/apiResponses.js";
 import mongoose from "mongoose";
 
 const createCategory = asyncHandler(async (req, res) => {
-    const { name, description, isAvailable, products } = req.body;
 
+    const { name, description } = req.body;
 
     const newCategory = await Category.create({
         name,
-        description,
-        isAvailable,
-        products
+        description
     });
 
-    const product = await Product.findOne({ name: products });
-    const category = await Category.aggregate([
-        {
-            $match: {
-                _id: newCategory._id
-            }
-        },
-        {
-            $lookup: {
-                from: "products",
-                localField: "products",
-                foreignField: "_id",
-                as: "products"
-            }
-        },
-        {
-            $addFields: {
-                "products": {
-                    $map: {
-                        input: "$products",
-                        as: "product",
-                        in: {
-                            name: "$$product.name",
-                            description: "$$product.description"
-                        }
-                    }
-                }
-            }
-        }
-    ])
-    return res.status(200).send(category);
+    return res.status(200).send(newCategory);
 });
 
 
