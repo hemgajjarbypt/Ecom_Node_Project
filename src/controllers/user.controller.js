@@ -1,8 +1,9 @@
-import { User, hashPassword } from "../models/user.model.js";
+import { User, hashPassword, isPasswordValid } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiError.js";
 import { apiResponse } from "../utils/apiResponses.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { REFRESH_TOKEN_PRIVATE_KEY } from "../constants.js";
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -77,7 +78,7 @@ const loginUser = asyncHandler(async (req, res) => {
         return apiError(res, 404, "User not exits!");
     }
 
-    const isPasswordValid = user.isPasswordValid(password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
         return apiError(res, 401, "password is incorrect");
@@ -92,16 +93,17 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const option = {
         httpOnly: true,
-        secure: true
+        // secure: true
     }
 
     return res.status(200)
         .cookie("accessToken", accessToken, option)
-        .cookie("refreshToken", refreshToken, option)
+        // .cookie("refreshToken", refreshToken, option)
         .json({
             userName: loggedInUser.userName,
             isLoggedIn: loggedInUser.isLoggedIn,
             lastLogin: loggedInUser.lastLogin,
+            accessToken: accessToken,
             message: `${loggedInUser.userName} is Logged in successfully`
         });
 })

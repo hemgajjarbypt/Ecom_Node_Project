@@ -104,10 +104,15 @@ userSchema.methods.isPasswordValid = function (password) {
     return bcrypt.compare(password, this.password);
 }
 
+const isPasswordValid = function (user_password) {
+    console.log(this.password);
+    return bcrypt.compare(user_password, this.password);
+}
+
 const hashPassword = async function(password) {
     return await bcrypt.hash(password, 10);
 }
 
 const User = mongoose.model("User", userSchema);
 
-export { User, hashPassword };
+export { User, hashPassword, isPasswordValid };
